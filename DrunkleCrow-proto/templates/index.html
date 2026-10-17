@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrunkleCrow</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+
+<h1>This is a bad crow.</h1>
+
+<img src="{{url_for('static', filename='images/BadBirdie.jpg')}}" alt="picture of a bird">
+
+<div class="navigation">
+    <a href="{{url_for('index', filename='about')}}">More</a>
+</div>
+
+<div class="navigation">
+    <a href="{{url_for('index', filename='seasons')}}">Seasons</a>
+</div>
+    
+</body>
+</html>

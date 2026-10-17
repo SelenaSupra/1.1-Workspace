@@ -1,0 +1,14 @@
+body {
+    font-family: Lucida, sans-serif;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 30px;
+}
+h1 {
+    color: #BD0088;
+
+}
+p {
+    font-size: 1.2em;
+    color: rgb(0, 174, 255);    
+}
