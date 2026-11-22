@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ super() }} - {{ band.BandName }}{% endblock %}
+{% block content %}
+<section>
+    <div class="container my-5">
+        <div class="band-focus p-5 text-center bg-body-secondary rounded-3">
+            <h1>{{ band.BandName }}{% if band.FormedYear %} ({{ band.FormedYear }}){% endif %}</h1>
+            {{ entity_buttons(entity_name="band", entity_id=band.BandID) }}
+            <p><strong>Home:</strong> {{ band.HomeLocation or "Unknown" }}</p>
+            <h2>Members</h2>
+            <ul>
+                {% for m in band.memberships %}
+                <li><a href="{{ url_for('view_member', id=m.member.MemberID) }}">{{ m.member.MemberName }}</a> - {{ m.Role or m.member.MainPosition or "Member" }}
+                    {% if m.StartYear %} ({{ m.StartYear }}{% if m.EndYear %} - {{ m.EndYear }}{% else %} - present{% endif %}){% endif %}
+                    {{ entity_buttons(entity_name="membership", entity_id=m.MembershipID, sub=True, dropdown=True) }}
+                </li>
+                {% else %}<li><em>No members assigned yet</em></li>{% endfor %}
+            </ul>
+            <h2>Albums</h2>
+            <ul>
+                {% for credit in band.artists %}
+                <li><a href="{{ url_for('view_album', id=credit.album.AlbumID) }}">{{ credit.album.AlbumTitle }}</a>
+                    {% if credit.album.ReleaseYear %}({{ credit.album.ReleaseYear }}){% endif %}
+                    — collaborating with
+                    {% for other in credit.album.artists if other.BandID != band.BandID %}
+                        <a href="{{ url_for('view_band', id=other.band.BandID) }}">{{ other.band.BandName }}</a>{% if not loop.last %}, {% endif %}
+                    {% else %}<em>no other bands</em>{% endfor %}
+                    {{ entity_buttons(entity_name="artist", entity_id=credit.ArtistID, sub=True, dropdown=True) }}
+                </li>
+                {% else %}<li>No albums yet!</li>{% endfor %}
+            </ul>
+            <p><a href="{{ url_for('add_artist') }}">Add a band/album collaboration</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}
