@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %} {{super()}} - Bands {% endblock %}
+{% block content %}
+<h2>Bands</h2>
+
+{% for band in bands %}
+<section>
+    <h3>
+        <a href="{{url_for('view_band', id=band.BandID)}}">{{ band.BandName }} ({{ band.FormedYear }})</a>
+    </h3>
+    {# Add links for edit and delete #}
+    {{ entity_buttons(entity_name="band", entity_id=band.BandID)}}
+    
+    <p><strong>Home:</strong> {{ band.HomeLocation }}</p>
+
+    {# Update members section #}
+    <h4>Members</h4>
+    <ul>
+        {% for m in band.memberships %}
+        <li>
+            <a href="{{url_for('view_member', id=m.member.MemberID)}}">{{ m.member.MemberName }}</a> - {{ m.Role or m.member.MainPosition }}
+            {% if m.StartYear %} ({{ m.StartYear }}{% if m.EndYear %} - {{ m.EndYear }}{% else %} - present{% endif
+            %}){% endif %}
+            {{ entity_buttons(entity_name="membership", entity_id=m.MembershipID, sub=True, dropdown=True)}}
+        </li>
+        {% else %}
+        <li><em>No members assigned yet</em></li>
+        {% endfor %}
+    </ul>
+
+    <h4>Albums</h4>
+    <ul>
+        {% for album in band.albums %}
+        <li>{{ album.AlbumTitle }} ({{ album.ReleaseYear }})</li>
+        {% endfor %}
+    </ul>
+</section>
+<hr />
+{% endfor %} {% endblock %}

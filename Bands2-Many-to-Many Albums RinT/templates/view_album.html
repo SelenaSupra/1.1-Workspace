@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} {{super()}} - {{album.AlbumTitle}} {% endblock %}
+{% block content %}
+<section>
+    <div class="container my-5">
+        <div class="band-focus p-5 text-center bg-body-secondary rounded-3">
+            <h1 class="text-body-emphasis">{{ album.AlbumTitle }} ({{ album.ReleaseYear }})</h1>
+            {{ entity_buttons(entity_name="album", entity_id=album.AlbumID)}}
+            
+            <h2>Artist</h2>
+            <ul>
+                {% for m in album.bands %}
+                <li>
+                    <a href="{{url_for('view_band', id=m.band.BandID)}}">{{ m.band.BandName }}</a>
+                {% endfor %}
+            </ul>
+
+
+{% endblock %}

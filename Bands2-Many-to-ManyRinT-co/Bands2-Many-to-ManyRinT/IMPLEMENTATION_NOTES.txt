@@ -1,0 +1,24 @@
+IMPLEMENTATION NOTES
+
+What changed:
+- Kept the existing Artists model as the Band/Album association table.
+- Removed the old one-band-per-album foreign key from Albums.
+- Added explicit ORM relationships from Bands and Albums to Artists.
+- Added a unique constraint so the same band cannot be linked to the same album twice.
+- Completed add/edit/delete routes for band/album connections.
+- Updated band and album pages to show collaborators and provide edit/delete actions.
+- Updated the add-album flow to create the album first, then connect bands.
+- Changed the default database filename to bands2_many_to_many.db to protect the starter database.
+
+Important:
+- The app creates missing tables, but SQLAlchemy create_all() does not alter existing tables.
+- This version uses a fresh database filename by default. Keep it that way for the first run.
+- The archive did not include Git history, so you must clone/fork your GitHub repository separately to create a branch and pull request.
+
+GitHub workflow:
+    git checkout -b feature/band-album-many-to-many
+    git add .
+    git commit -m "Add many-to-many band album relationship"
+    git push -u origin feature/band-album-many-to-many
+
+Then open your fork on GitHub and use the Compare & pull request button.

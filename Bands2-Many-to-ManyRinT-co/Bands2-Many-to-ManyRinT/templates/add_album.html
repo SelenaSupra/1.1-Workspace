@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} {{super()}} - Add Album {% endblock %}
+{% block content %}
+<h2>Add Album</h2>
+<form method="post" id="albumForm">
+    <label>Album Title:</label><input type="text" name="albumtitle"><br>
+    <label for="releaseyear">Release Year:</label>
+    <select id="releaseyear" name="releaseyear">
+        <option value="">-- Select Year --</option>
+    {% for year in range(2026, 1949, -1) %}
+    <option value="{{ year }}">{{ year }}</option>
+    {% endfor %}
+</select><br>
+
+    <!-- <label>Band:</label>
+    <select name="bandid">
+        {% for band in bands %}
+        <option value="{{ band.BandID }}">{{ band.BandName }}</option>
+        {% endfor %}
+    </select><br> -->
+
+    
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

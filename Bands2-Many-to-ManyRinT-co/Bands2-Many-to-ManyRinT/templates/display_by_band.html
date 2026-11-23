@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ super() }} - Bands{% endblock %}
+{% block content %}
+<h2>Bands</h2>
+{% for band in bands %}
+<section>
+    <h3><a href="{{ url_for('view_band', id=band.BandID) }}">{{ band.BandName }}{% if band.FormedYear %} ({{ band.FormedYear }}){% endif %}</a></h3>
+    {{ entity_buttons(entity_name="band", entity_id=band.BandID) }}
+    <p><strong>Home:</strong> {{ band.HomeLocation or "Unknown" }}</p>
+    <h4>Members</h4>
+    <ul>
+        {% for m in band.memberships %}
+        <li>
+            <a href="{{ url_for('view_member', id=m.member.MemberID) }}">{{ m.member.MemberName }}</a>
+            - {{ m.Role or m.member.MainPosition or "Member" }}
+            {% if m.StartYear %} ({{ m.StartYear }}{% if m.EndYear %} - {{ m.EndYear }}{% else %} - present{% endif %}){% endif %}
+            {{ entity_buttons(entity_name="membership", entity_id=m.MembershipID, sub=True, dropdown=True) }}
+        </li>
+        {% else %}<li><em>No members assigned yet</em></li>{% endfor %}
+    </ul>
+    <h4>Albums</h4>
+    <ul>
+        {% for credit in band.artists %}
+        <li>
+            <a href="{{ url_for('view_album', id=credit.album.AlbumID) }}">{{ credit.album.AlbumTitle }}</a>
+            {% if credit.album.ReleaseYear %}({{ credit.album.ReleaseYear }}){% endif %}
+            — with
+            {% for collaborator in credit.album.artists if collaborator.BandID != band.BandID %}
+                <a href="{{ url_for('view_band', id=collaborator.band.BandID) }}">{{ collaborator.band.BandName }}</a>{% if not loop.last %}, {% endif %}
+            {% else %}<em>no other bands listed</em>{% endfor %}
+            {{ entity_buttons(entity_name="artist", entity_id=credit.ArtistID, sub=True, dropdown=True) }}
+        </li>
+        {% else %}<li><em>No albums assigned yet</em></li>{% endfor %}
+    </ul>
+</section>
+<hr>
+{% else %}<p>No bands have been added yet.</p>{% endfor %}
+{% endblock %}

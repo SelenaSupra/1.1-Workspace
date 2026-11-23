@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ super() }} - {{ album.AlbumTitle }}{% endblock %}
+{% block content %}
+<section class="container my-5">
+    <div class="band-focus p-5 text-center bg-body-secondary rounded-3">
+        <h1>{{ album.AlbumTitle }}{% if album.ReleaseYear %} ({{ album.ReleaseYear }}){% endif %}</h1>
+        <h2>Contributing Bands</h2>
+        <ul>
+            {% for credit in album.artists %}
+            <li>
+                <a href="{{ url_for('view_band', id=credit.band.BandID) }}">{{ credit.band.BandName }}</a>
+                {{ entity_buttons(entity_name="artist", entity_id=credit.ArtistID, sub=True, dropdown=True) }}
+            </li>
+            {% else %}<li><em>No bands connected to this album yet.</em></li>{% endfor %}
+        </ul>
+        <a href="{{ url_for('add_artist', album_id=album.AlbumID) }}">Add a contributing band</a>
+        <p><a href="{{ url_for('view_by_album') }}">Back to all albums</a></p>
+    </div>
+</section>
+{% endblock %}

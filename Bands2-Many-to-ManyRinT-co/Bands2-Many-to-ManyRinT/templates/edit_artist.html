@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ super() }} - Edit Collaboration{% endblock %}
+{% block content %}
+<h2>Edit Band/Album Collaboration</h2>
+<form method="post" id="artistForm">
+    <label for="bandid">Band:</label>
+    <select id="bandid" name="bandid" required>
+        {% for band in bands %}
+        <option value="{{ band.BandID }}" {% if band.BandID == artist.BandID %}selected{% endif %}>{{ band.BandName }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="albumid">Album:</label>
+    <select id="albumid" name="albumid" required>
+        {% for album in albums %}
+        <option value="{{ album.AlbumID }}" {% if album.AlbumID == artist.AlbumID %}selected{% endif %}>{{ album.AlbumTitle }}{% if album.ReleaseYear %} ({{ album.ReleaseYear }}){% endif %}</option>
+        {% endfor %}
+    </select><br>
+    <button type="submit">Save Changes</button>
+    <a href="{{ url_for('view_album', id=artist.AlbumID) }}">Cancel</a>
+</form>
+{% endblock %}
